@@ -1,0 +1,222 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Project Setup and Initialization",
+        "description": "Set up the Next.js 14 project with TypeScript, TailwindCSS, and necessary dependencies for the MyTube application.",
+        "details": "- Initialize Next.js 14 project with App Router\n- Configure TypeScript\n- Set up TailwindCSS\n- Install React Query for data handling\n- Set up project structure and folder organization\n- Configure ESLint and Prettier\n- Set up Git repository",
+        "status": "done",
+        "priority": "high",
+        "complexity": 3,
+        "dependencies": [],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Google OAuth 2.0 Authentication Setup",
+        "description": "Implement Google OAuth 2.0 authentication to allow users to sign in with their Google account and access YouTube data.",
+        "details": "- Set up Google OAuth 2.0 credentials\n- Implement login flow with Google\n- Request YouTube readonly scope (https://www.googleapis.com/auth/youtube.readonly)\n- Handle access_token and refresh_token\n- Implement logout functionality\n- Secure token storage (backend or environment variables)",
+        "status": "done",
+        "priority": "high",
+        "complexity": 7,
+        "dependencies": [
+          "1"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "YouTube Data API v3 Integration",
+        "description": "Integrate YouTube Data API v3 to fetch user subscriptions, channel videos, and search results.",
+        "details": "- Set up YouTube Data API v3 credentials\n- Implement API client with proper error handling\n- Set up rate limiting and quota management\n- Configure API endpoints for subscriptions, search, and channel videos\n- Implement data caching strategy",
+        "status": "done",
+        "priority": "high",
+        "complexity": 6,
+        "dependencies": [
+          "2"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Subscriptions Page Implementation",
+        "description": "Create a page to display all channels the user is subscribed to with their avatars and titles.",
+        "details": "- Implement GET /youtube/v3/subscriptions API call\n- Create subscriptions list component\n- Display channel avatar, title, and link\n- Implement responsive grid layout\n- Add loading states and error handling\n- Link to individual channel videos",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 5,
+        "dependencies": [
+          "3"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Channel Videos Page",
+        "description": "Create a page to display the latest videos from a specific channel when clicked.",
+        "details": "- Implement GET /youtube/v3/search API for channel videos\n- Create channel videos list component\n- Display video thumbnails, titles, and publish dates\n- Implement pagination for large video lists\n- Add loading states and error handling\n- Link to video player",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 5,
+        "dependencies": [
+          "4"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Video Search Functionality",
+        "description": "Implement search functionality to find YouTube videos by keyword and display results.",
+        "details": "- Implement GET /youtube/v3/search API for video search\n- Create search input component with debouncing\n- Display search results in list format\n- Show video thumbnails, titles, and metadata\n- Implement search result pagination\n- Add loading states and error handling",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 4,
+        "dependencies": [
+          "3"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Video Player Component",
+        "description": "Create a video player component using YouTube iframe embed to play videos within the app.",
+        "details": "- Implement YouTube iframe embed (https://www.youtube.com/embed/{VIDEO_ID})\n- Create responsive video player component\n- Support fullscreen functionality\n- Handle video loading states\n- Implement video player controls\n- Ensure mobile compatibility",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 4,
+        "dependencies": [
+          "5",
+          "6"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "React Query Integration and Caching",
+        "description": "Implement React Query for efficient data fetching, caching, and state management across the application.",
+        "details": "- Set up React Query provider\n- Implement query hooks for API calls\n- Configure caching strategies for subscriptions, videos, and search\n- Handle loading, error, and success states\n- Implement background refetching\n- Optimize performance with proper cache invalidation",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 5,
+        "dependencies": [
+          "1"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Responsive UI Design and Layout",
+        "description": "Create a clean, minimal, and responsive user interface that works on both desktop and mobile devices.",
+        "details": "- Design responsive layout using TailwindCSS\n- Implement mobile-first design approach\n- Create navigation components (header, sidebar)\n- Ensure consistent spacing and typography\n- Implement responsive grid systems\n- Test on various screen sizes",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 4,
+        "dependencies": [
+          "1"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Navigation and Routing",
+        "description": "Implement application navigation and routing between different pages and components.",
+        "details": "- Set up Next.js App Router with proper routing\n- Create navigation between subscriptions, channel videos, and search\n- Implement breadcrumb navigation\n- Handle route parameters for channel IDs and video IDs\n- Ensure proper back navigation\n- Add loading states for route transitions",
+        "status": "done",
+        "priority": "medium",
+        "complexity": 4,
+        "dependencies": [
+          "9"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Error Handling and User Feedback",
+        "description": "Implement comprehensive error handling and user feedback mechanisms throughout the application.",
+        "details": "- Create error boundary components\n- Implement user-friendly error messages\n- Add loading spinners and skeleton loaders\n- Handle API errors gracefully\n- Implement retry mechanisms for failed requests\n- Add success notifications for user actions",
+        "status": "done",
+        "priority": "low",
+        "complexity": 3,
+        "dependencies": [
+          "8"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Security Implementation",
+        "description": "Ensure proper security measures for token handling and API access.",
+        "details": "- Secure storage of access and refresh tokens\n- Implement token refresh logic\n- Validate user authentication on protected routes\n- Secure API key handling\n- Implement proper CORS policies\n- Add security headers",
+        "status": "done",
+        "priority": "high",
+        "complexity": 6,
+        "dependencies": [
+          "2"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Testing and Quality Assurance",
+        "description": "Implement comprehensive testing to ensure application reliability and quality.",
+        "details": "- Set up testing framework (Jest/React Testing Library)\n- Write unit tests for components\n- Implement integration tests for API calls\n- Add end-to-end tests for critical user flows\n- Test responsive design on various devices\n- Performance testing and optimization",
+        "status": "done",
+        "priority": "low",
+        "complexity": 5,
+        "dependencies": [
+          "7",
+          "10"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Performance Optimization",
+        "description": "Optimize application performance for fast loading and smooth user experience.",
+        "details": "- Implement code splitting and lazy loading\n- Optimize bundle size\n- Add service worker for offline capabilities\n- Implement image optimization\n- Add performance monitoring\n- Optimize API calls and caching",
+        "status": "done",
+        "priority": "low",
+        "complexity": 4,
+        "dependencies": [
+          "8",
+          "13"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Documentation and Deployment",
+        "description": "Create comprehensive documentation and prepare the application for deployment.",
+        "details": "- Write README with setup instructions\n- Document API integration details\n- Create deployment guide\n- Set up environment configuration\n- Prepare production build\n- Deploy to hosting platform",
+        "status": "done",
+        "priority": "low",
+        "complexity": 3,
+        "dependencies": [
+          "14"
+        ],
+        "created": "2025-01-27T00:00:00Z",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-22T04:17:48.480Z",
+      "updated": "2025-08-22T05:15:55.406Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

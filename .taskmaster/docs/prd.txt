@@ -1,0 +1,131 @@
+Product Requirements Document (PRD)
+
+Product Name: MyTube (Private Edition)
+Author: Umidjon Tuychiyev
+Date: 2025-08-22
+
+1. Product Overview
+
+MyTube is a private web application that allows a single user to sign in with Google and access their own YouTube subscriptions, watch videos from subscribed channels, and search for videos on YouTube. The app leverages YouTube Data API v3 and Google OAuth 2.0.
+
+This product is for personal use only (single-user), not for public access.
+
+2. Goals & Objectives
+
+Provide a minimal YouTube experience without distractions.
+
+Allow the user to view only subscribed channels and their videos.
+
+Provide a search interface for finding YouTube videos.
+
+Keep the design simple, clean, and responsive.
+
+3. User Stories
+
+Authentication
+
+As the user, I want to log in with my Google account so that I can access my subscriptions.
+
+Subscriptions List
+
+As the user, I want to see a list of all channels I am subscribed to.
+
+Channel Videos
+
+As the user, I want to click a channel and see its latest videos.
+
+Video Playback
+
+As the user, I want to click a video and watch it inside the app (via embedded YouTube player).
+
+Search Videos
+
+As the user, I want to search for videos by keyword and see the results.
+
+4. Functional Requirements
+4.1 Authentication
+
+Login with Google OAuth 2.0.
+
+Request YouTube readonly scope:
+
+https://www.googleapis.com/auth/youtube.readonly
+
+Store access_token and refresh_token (single-user, can be stored in .env or local server).
+
+Logout option.
+
+4.2 Subscriptions Page
+
+API: GET /youtube/v3/subscriptions?part=snippet,contentDetails&mine=true
+
+Display: channel avatar, title, and link to channel videos.
+
+4.3 Channel Videos Page
+
+API: GET /youtube/v3/search?part=snippet&channelId={CHANNEL_ID}&order=date
+
+Display latest videos: thumbnail, title, publish date.
+
+Click → open video player.
+
+4.4 Search Page
+
+API: GET /youtube/v3/search?part=snippet&q={QUERY}&type=video
+
+Display results in list format.
+
+Click → open video player.
+
+4.5 Video Player
+
+Use YouTube iframe embed:
+
+https://www.youtube.com/embed/{VIDEO_ID}
+
+
+Support fullscreen.
+
+5. Non-Functional Requirements
+
+Single-user only: no multi-user support required.
+
+Performance: use client-side caching (React Query).
+
+UI/UX: minimal, distraction-free, responsive (desktop + mobile).
+
+Security: tokens not exposed in frontend, handled via backend or secure environment variables.
+
+6. Technology Stack
+
+Frontend: Next.js 14 (App Router), TypeScript, React 18, TailwindCSS
+
+Data Handling: React Query
+
+Auth: Google OAuth 2.0
+
+API: YouTube Data API v3
+
+Backend (optional): Node.js + Express (to manage refresh tokens securely, if needed)
+
+7. Success Metrics
+
+User can log in with Google successfully.
+
+Subscribed channels are displayed.
+
+Videos from a channel are retrievable and viewable.
+
+Search works and shows results.
+
+Videos play inside the app.
+
+8. Future Enhancements
+
+Playlists view.
+
+Watch history integration.
+
+Dark mode.
+
+Offline caching of videos.

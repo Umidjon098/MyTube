@@ -1,0 +1,16 @@
+# Task ID: 7
+# Title: Video Player Component
+# Status: pending
+# Dependencies: 5, 6
+# Priority: medium
+# Description: Create a video player component using YouTube iframe embed to play videos within the app.
+# Details:
+- Implement YouTube iframe embed (https://www.youtube.com/embed/{VIDEO_ID})
+- Create responsive video player component
+- Support fullscreen functionality
+- Handle video loading states
+- Implement video player controls
+- Ensure mobile compatibility
+
+# Test Strategy:
+

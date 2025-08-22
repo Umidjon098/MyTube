@@ -1,0 +1,17 @@
+# Task ID: 1
+# Title: Project Setup and Initialization
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Set up the Next.js 14 project with TypeScript, TailwindCSS, and necessary dependencies for the MyTube application.
+# Details:
+- Initialize Next.js 14 project with App Router
+- Configure TypeScript
+- Set up TailwindCSS
+- Install React Query for data handling
+- Set up project structure and folder organization
+- Configure ESLint and Prettier
+- Set up Git repository
+
+# Test Strategy:
+

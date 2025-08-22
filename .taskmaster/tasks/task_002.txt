@@ -1,0 +1,16 @@
+# Task ID: 2
+# Title: Google OAuth 2.0 Authentication Setup
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Implement Google OAuth 2.0 authentication to allow users to sign in with their Google account and access YouTube data.
+# Details:
+- Set up Google OAuth 2.0 credentials
+- Implement login flow with Google
+- Request YouTube readonly scope (https://www.googleapis.com/auth/youtube.readonly)
+- Handle access_token and refresh_token
+- Implement logout functionality
+- Secure token storage (backend or environment variables)
+
+# Test Strategy:
+

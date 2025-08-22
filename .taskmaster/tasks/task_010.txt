@@ -1,0 +1,16 @@
+# Task ID: 10
+# Title: Navigation and Routing
+# Status: pending
+# Dependencies: 9
+# Priority: medium
+# Description: Implement application navigation and routing between different pages and components.
+# Details:
+- Set up Next.js App Router with proper routing
+- Create navigation between subscriptions, channel videos, and search
+- Implement breadcrumb navigation
+- Handle route parameters for channel IDs and video IDs
+- Ensure proper back navigation
+- Add loading states for route transitions
+
+# Test Strategy:
+
