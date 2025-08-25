@@ -1,20 +1,28 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { SearchBar } from '@/components/SearchBar';
-import { VideoCard } from '@/components/VideoCard';
-import { useVideoSearch } from '@/hooks/useYouTube';
-import { YouTubeVideo } from '@/types';
-import { Search as SearchIcon, Loader2 } from 'lucide-react';
-import { ErrorFallback, EmptyState } from '@/components/ErrorFallback';
-import { VideoCardSkeleton } from '@/components/LoadingSpinner';
-import { useToast } from '@/components/Toast';
+import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { SearchBar } from "@/components/SearchBar";
+import { VideoCard } from "@/components/VideoCard";
+import { useVideoSearch } from "@/hooks/useYouTube";
+import { YouTubeVideo } from "@/types";
+import { Search as SearchIcon, Loader2 } from "lucide-react";
+import { ErrorFallback, EmptyState } from "@/components/ErrorFallback";
+import { VideoCardSkeleton } from "@/components/LoadingSpinner";
+import { useToast } from "@/components/Toast";
 
 export default function SearchPage() {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useVideoSearch(searchQuery, searchQuery.length > 0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = useVideoSearch(searchQuery, searchQuery.length > 0);
   const toast = useToast();
 
   const handleSearch = (query: string) => {
@@ -25,35 +33,53 @@ export default function SearchPage() {
     router.push(`/watch/${video.id}`);
   };
 
-  const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
+  // Infinite scroll logic
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!hasNextPage || isFetchingNextPage) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1 }
+    );
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
     }
-  };
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   // Mock data for development
   const mockVideos = [
     {
-      id: 'dQw4w9WgXcQ',
-      title: 'Rick Astley - Never Gonna Give You Up (Official Music Video)',
-      description: 'The official music video for "Never Gonna Give You Up" by Rick Astley',
-      thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
-      channelTitle: 'Rick Astley',
-      channelId: 'UCuAXFkgsw1L7xaCfnd5JJOw',
-      publishedAt: '2009-10-25T07:12:57Z',
+      id: "dQw4w9WgXcQ",
+      title: "Rick Astley - Never Gonna Give You Up (Official Music Video)",
+      description:
+        'The official music video for "Never Gonna Give You Up" by Rick Astley',
+      thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
+      channelTitle: "Rick Astley",
+      channelId: "UCuAXFkgsw1L7xaCfnd5JJOw",
+      publishedAt: "2009-10-25T07:12:57Z",
     },
     {
-      id: '9bZkp7q19f0',
-      title: 'PSY - GANGNAM STYLE(강남스타일) M/V',
-      description: 'PSY - &apos;GANGNAM STYLE(강남스타일)&apos; M/V',
-      thumbnail: 'https://i.ytimg.com/vi/9bZkp7q19f0/mqdefault.jpg',
-      channelTitle: 'officialpsy',
-      channelId: 'UCrDkAvwZ2-2H0dZJc-mGpXg',
-      publishedAt: '2012-07-15T07:12:57Z',
+      id: "9bZkp7q19f0",
+      title: "PSY - GANGNAM STYLE(강남스타일) M/V",
+      description: "PSY - &apos;GANGNAM STYLE(강남스타일)&apos; M/V",
+      thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/mqdefault.jpg",
+      channelTitle: "officialpsy",
+      channelId: "UCrDkAvwZ2-2H0dZJc-mGpXg",
+      publishedAt: "2012-07-15T07:12:57Z",
     },
   ];
 
-  const allVideos = data?.pages.flatMap(page => page.items) || mockVideos;
+  const allVideos = data?.pages.flatMap((page) => page.items) || mockVideos;
 
   return (
     <div>
@@ -64,8 +90,8 @@ export default function SearchPage() {
         <p className="text-gray-600 dark:text-gray-400 mb-6">
           Find the videos you&apos;re looking for on YouTube
         </p>
-        
-        <SearchBar 
+
+        <SearchBar
           onSearch={handleSearch}
           placeholder="Search for videos..."
           className="max-w-2xl"
@@ -85,11 +111,14 @@ export default function SearchPage() {
           <VideoCardSkeleton count={8} />
         </div>
       ) : error ? (
-        <ErrorFallback 
-          error={error.message || 'Failed to search videos'} 
+        <ErrorFallback
+          error={error.message || "Failed to search videos"}
           onRetry={() => {
             refetch();
-            toast.info('Retrying search...', `Searching again for "${searchQuery}"`);
+            toast.info(
+              "Retrying search...",
+              `Searching again for "${searchQuery}"`
+            );
           }}
           showHomeButton={false}
         />
@@ -112,21 +141,14 @@ export default function SearchPage() {
           </div>
 
           {hasNextPage && (
-            <div className="mt-8 text-center">
-              <button
-                onClick={handleLoadMore}
-                disabled={isFetchingNextPage}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {isFetchingNextPage ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
-                    Loading...
-                  </>
-                ) : (
-                  'Load More Videos'
-                )}
-              </button>
+            <div ref={loadMoreRef} className="mt-8 text-center">
+              {isFetchingNextPage ? (
+                <Loader2 className="w-6 h-6 animate-spin mx-auto text-blue-600" />
+              ) : (
+                <span className="text-gray-500 dark:text-gray-400">
+                  Scroll down to load more...
+                </span>
+              )}
             </div>
           )}
         </>
