@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { VideoCard } from "@/components/VideoCard";
@@ -38,11 +38,28 @@ export default function ChannelPage() {
     router.push(`/watch/${video.id}`);
   };
 
-  const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
+  // Infinite scroll logic
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!hasNextPage || isFetchingNextPage) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1 }
+    );
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
     }
-  };
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   // Mock data for development
   const mockChannel = {
@@ -218,23 +235,16 @@ export default function ChannelPage() {
         )}
       </div>
 
-      {/* Load More Button */}
+      {/* Infinite Scroll Loader */}
       {hasNextPage && (
-        <div className="text-center">
-          <button
-            onClick={handleLoadMore}
-            disabled={isFetchingNextPage}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isFetchingNextPage ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
-                Loading...
-              </>
-            ) : (
-              "Load More Videos"
-            )}
-          </button>
+        <div ref={loadMoreRef} className="mt-8 text-center">
+          {isFetchingNextPage ? (
+            <Loader2 className="w-6 h-6 animate-spin mx-auto text-blue-600" />
+          ) : (
+            <span className="text-gray-500 dark:text-gray-400">
+              Scroll down to load more...
+            </span>
+          )}
         </div>
       )}
     </div>
