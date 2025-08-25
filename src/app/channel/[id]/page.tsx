@@ -226,7 +226,7 @@ export default function ChannelPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {allVideos.map((video) => (
               <VideoCard
-                key={video.id + '-' + video.publishedAt}
+                key={video.id + "-" + video.publishedAt}
                 video={video}
                 onClick={handleVideoClick}
               />
