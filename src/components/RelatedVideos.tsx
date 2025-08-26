@@ -54,7 +54,7 @@ const RelatedVideos: React.FC<RelatedVideosProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-1">
       {videos.map((video, idx) => {
         const videoBox = (
           <div
