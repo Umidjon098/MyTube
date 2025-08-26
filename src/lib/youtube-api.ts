@@ -35,6 +35,13 @@ interface GoogleSearchItem {
       medium?: { url: string };
     };
   };
+  statistics?: {
+    viewCount?: string;
+    likeCount?: string;
+    dislikeCount?: string;
+    favoriteCount?: string;
+    commentCount?: string;
+  };
 }
 
 interface GoogleChannelItem {
@@ -292,7 +299,7 @@ export class YouTubeAPI {
   // Get video details by ID
   async getVideoDetails(videoId: string): Promise<GoogleSearchItem> {
     const params: Record<string, string> = {
-      part: "snippet",
+      part: "snippet,statistics",
       id: videoId,
     };
     const response = await this.makeRequest<
