@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
-import { useState } from 'react';
-import RelatedVideos from '@/components/RelatedVideos';
-import { useVideoDetails } from '@/hooks/useVideoDetails';
+import React from "react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, Maximize2, Minimize2 } from "lucide-react";
+import { useState } from "react";
+import RelatedVideos from "@/components/RelatedVideos";
+import { useVideoDetails } from "@/hooks/useVideoDetails";
 
 export default function WatchPage() {
   const params = useParams();
@@ -16,7 +16,7 @@ export default function WatchPage() {
   const { data: videoData, isLoading, error } = useVideoDetails(videoId);
 
   const handleFullscreen = () => {
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector("iframe");
     if (iframe) {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -62,7 +62,9 @@ export default function WatchPage() {
                   <button
                     onClick={handleFullscreen}
                     className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-md transition-all duration-200"
-                    title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                    title={
+                      isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
+                    }
                   >
                     {isFullscreen ? (
                       <Minimize2 className="w-5 h-5" />
@@ -79,7 +81,11 @@ export default function WatchPage() {
                 </h1>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
-                    <span>{new Date(videoData.snippet.publishedAt).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(
+                        videoData.snippet.publishedAt
+                      ).toLocaleDateString()}
+                    </span>
                   </div>
                 </div>
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
@@ -108,7 +114,10 @@ export default function WatchPage() {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 Related Videos
               </h2>
-              <RelatedVideos channelId={videoData.snippet.channelId} excludeVideoId={videoId} />
+              <RelatedVideos
+                channelId={videoData.snippet.channelId}
+                excludeVideoId={videoId}
+              />
             </div>
           </div>
         </div>

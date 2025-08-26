@@ -10,7 +10,10 @@ interface RelatedVideosProps {
   excludeVideoId?: string;
 }
 
-const RelatedVideos: React.FC<RelatedVideosProps> = ({ channelId, excludeVideoId }) => {
+const RelatedVideos: React.FC<RelatedVideosProps> = ({
+  channelId,
+  excludeVideoId,
+}) => {
   const router = useRouter();
   const {
     data,
@@ -37,11 +40,13 @@ const RelatedVideos: React.FC<RelatedVideosProps> = ({ channelId, excludeVideoId
   );
 
   if (status === "pending") return <div>Loading related videos...</div>;
-  if (status === "error") return <div>Error loading related videos: {String(error)}</div>;
+  if (status === "error")
+    return <div>Error loading related videos: {String(error)}</div>;
 
-  const videos = data?.pages
-    .flatMap((page) => page.items)
-    .filter((v) => v.id !== excludeVideoId) || [];
+  const videos =
+    data?.pages
+      .flatMap((page) => page.items)
+      .filter((v) => v.id !== excludeVideoId) || [];
 
   const handleVideoClick = (video: import("@/types").YouTubeVideo) => {
     router.push(`/watch/${video.id}`);
@@ -57,11 +62,15 @@ const RelatedVideos: React.FC<RelatedVideosProps> = ({ channelId, excludeVideoId
             </div>
           );
         }
-        return <VideoCard key={video.id} video={video} onClick={handleVideoClick} />;
+        return (
+          <VideoCard key={video.id} video={video} onClick={handleVideoClick} />
+        );
       })}
       {isFetchingNextPage && <div>Loading more...</div>}
       {!hasNextPage && videos.length > 0 && (
-        <div className="text-center text-xs text-gray-500 dark:text-gray-400 mt-2">No more videos</div>
+        <div className="text-center text-xs text-gray-500 dark:text-gray-400 mt-2">
+          No more videos
+        </div>
       )}
     </div>
   );
