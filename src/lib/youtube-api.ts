@@ -1,3 +1,4 @@
+// ...existing code...
 import { 
   YouTubeChannel, 
   YouTubeSearchResponse, 
@@ -265,6 +266,17 @@ export class YouTubeAPI {
       subscriberCount: channel.statistics?.subscriberCount,
       videoCount: channel.statistics?.videoCount,
     };
+  }
+
+  // Get video details by ID
+  async getVideoDetails(videoId: string): Promise<GoogleSearchItem> {
+    const params: Record<string, string> = {
+      part: 'snippet',
+      id: videoId,
+    };
+    const response = await this.makeRequest<GoogleApiResponse<GoogleSearchItem>>('/videos', params);
+    if (!response.items || response.items.length === 0) throw new Error('Video not found');
+    return response.items[0];
   }
 }
 
