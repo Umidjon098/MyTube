@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useRef, useCallback } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useChannelVideos } from "@/hooks/useYouTube";
-import { VideoCard } from "@/components/VideoCard";
+// ...existing code...
 
 interface RelatedVideosProps {
   channelId: string;
@@ -55,16 +56,46 @@ const RelatedVideos: React.FC<RelatedVideosProps> = ({
   return (
     <div className="space-y-4">
       {videos.map((video, idx) => {
+        const videoBox = (
+          <div
+            key={video.id}
+            className="flex space-x-3 cursor-pointer group hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md p-2 transition"
+            onClick={() => handleVideoClick(video)}
+          >
+            <div className="w-24 h-16 bg-gray-200 dark:bg-gray-700 rounded-md flex-shrink-0 overflow-hidden relative">
+              <Image
+                src={video.thumbnail}
+                alt={video.title}
+                fill
+                className="object-cover rounded-md"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 line-clamp-2 mb-1">
+                {video.title}
+              </h4>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                {video.channelTitle}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-500">
+                {video.viewCount ? `${video.viewCount} views • ` : ""}
+                {video.publishedAt
+                  ? new Date(video.publishedAt).toLocaleDateString()
+                  : ""}
+              </p>
+            </div>
+          </div>
+        );
         if (idx === videos.length - 1) {
           return (
             <div ref={lastVideoRef} key={video.id}>
-              <VideoCard video={video} onClick={handleVideoClick} />
+              {videoBox}
             </div>
           );
         }
-        return (
-          <VideoCard key={video.id} video={video} onClick={handleVideoClick} />
-        );
+        return videoBox;
       })}
       {isFetchingNextPage && <div>Loading more...</div>}
       {!hasNextPage && videos.length > 0 && (
